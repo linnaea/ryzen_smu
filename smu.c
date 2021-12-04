@@ -592,11 +592,16 @@ enum smu_return_val smu_get_pm_table_version(struct pci_dev* dev, u32* version) 
         case CODENAME_MATISSE:
         case CODENAME_VERMEER:
         case CODENAME_MILAN:
+        case CODENAME_CASTLEPEAK:
             fn = 0x08;
             break;
         case CODENAME_RENOIR:
         case CODENAME_CEZANNE:
             fn = 0x06;
+            break;
+        case CODENAME_COLFAX:
+        case CODENAME_PINNACLERIDGE:
+            fn = 0x0e;
             break;
         default:
             return SMU_Return_Unsupported;
