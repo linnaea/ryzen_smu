@@ -552,10 +552,15 @@ enum smu_return_val smu_transfer_table_to_dram(struct pci_dev* dev) {
         case CODENAME_MATISSE:
         case CODENAME_VERMEER:
         case CODENAME_MILAN:
+        case CODENAME_CASTLEPEAK:
             fn = 0x05;
             break;
         case CODENAME_CEZANNE:
             fn = 0x65;
+            break;
+        case CODENAME_COLFAX:
+        case CODENAME_PINNACLERIDGE:
+            fn = 0x0a;
             break;
         case CODENAME_RENOIR:
             args.s.arg0 = 3;
