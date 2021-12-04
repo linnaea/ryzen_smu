@@ -667,6 +667,28 @@ u32 smu_update_pmtable_size(u32 version) {
                     goto UNKNOWN_PM_TABLE_VERSION;
             }
             break;
+        case CODENAME_CASTLEPEAK:
+            switch (version) {
+                case 0x240003:
+                    g_smu.pm_dram_map_size = 0x18AC;
+                    break;
+                case 0x240503:
+                    g_smu.pm_dram_map_size = 0xD7C;
+                    break;
+                case 0x240603:
+                    g_smu.pm_dram_map_size = 0xAB0;
+                    break;
+                case 0x240703:
+                case 0x240803:
+                    g_smu.pm_dram_map_size = 0x7E4;
+                    break;
+                case 0x240903:
+                    g_smu.pm_dram_map_size = 0x518;
+                    break;
+                default:
+                    goto UNKNOWN_PM_TABLE_VERSION;
+            }
+            break;
         case CODENAME_MILAN:
             switch (version) {
                 case 0x2D0008:
