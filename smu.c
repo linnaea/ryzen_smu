@@ -560,6 +560,11 @@ enum smu_return_val smu_transfer_table_to_dram(struct pci_dev* dev) {
             break;
         case CODENAME_COLFAX:
         case CODENAME_PINNACLERIDGE:
+        case CODENAME_THREADRIPPER:
+        case CODENAME_SUMMITRIDGE:
+            // This is never implemented in Ryzen Master for Zen,
+            // however given how similar Zen and Zen+ APUs are
+            // we'll just assume it's also the case
             fn = 0x0a;
             break;
         case CODENAME_RENOIR:
@@ -606,6 +611,9 @@ enum smu_return_val smu_get_pm_table_version(struct pci_dev* dev, u32* version) 
             break;
         case CODENAME_COLFAX:
         case CODENAME_PINNACLERIDGE:
+            // Ryzen Master sends this command when preparing its parameter list,
+            // although the return value is overwritten immediately afterwards.
+            // Might not be needed afterall.
             fn = 0x0e;
             break;
         default:
@@ -742,6 +750,13 @@ u32 smu_update_pmtable_size(u32 version) {
             g_smu.pm_dram_base_alt = g_smu.pm_dram_base >> 32;
             g_smu.pm_dram_base &= 0xFFFFFFFF;
             break;
+        case CODENAME_COLFAX:
+        case CODENAME_PINNACLERIDGE:
+        case CODENAME_THREADRIPPER:
+        case CODENAME_SUMMITRIDGE:
+            // We don't actually know, assume it takes one memory page.
+            g_smu.pm_dram_map_size = 0x1000;
+            break;
         default:
             return SMU_Return_Unsupported;
     }
@@ -767,19 +782,11 @@ enum smu_return_val smu_read_pm_table(struct pci_dev* dev, unsigned char* dst, s
 
         // Should help us catch where we missed table version initialization in the future.
         version = 0xDEADC0DE;
-
-        // These models require finding the PM table version to determine its size.
-        if (g_smu.codename == CODENAME_VERMEER ||
-            g_smu.codename == CODENAME_MATISSE ||
-            g_smu.codename == CODENAME_RENOIR  ||
-            g_smu.codename == CODENAME_CEZANNE ||
-            g_smu.codename == CODENAME_MILAN) {
-            ret = smu_get_pm_table_version(dev, &version);
-
-            if (ret != SMU_Return_OK) {
-                pr_err("Failed to get PM Table version with error: %X\n", ret);
-                return ret;
-            }
+        ret = smu_get_pm_table_version(dev, &version);
+        if (ret != SMU_Return_OK && ret != SMU_Return_Unsupported) {
+            // Some chips don't need this and would return Unsupported, ignore that.
+            pr_err("Failed to get PM Table version with error: %X\n", ret);
+            return ret;
         }
 
         ret = smu_update_pmtable_size(version);
