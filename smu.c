@@ -760,7 +760,7 @@ u32 smu_update_pmtable_size(u32 version) {
         case CODENAME_THREADRIPPER:
         case CODENAME_SUMMITRIDGE:
             // We don't actually know, assume it takes one memory page.
-            g_smu.pm_dram_map_size = 0x1000;
+            g_smu.pm_dram_map_size = 0xFFC;
             break;
         default:
             return SMU_Return_Unsupported;
