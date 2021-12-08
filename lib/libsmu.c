@@ -458,5 +458,5 @@ const char* smu_codename_to_str(smu_obj_t* obj) {
 }
 
 unsigned int smu_pm_tables_supported(smu_obj_t* obj) {
-    return obj->pm_table_size && obj->pm_table_version;
+    return obj->pm_table_size;
 }
