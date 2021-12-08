@@ -752,8 +752,11 @@ u32 smu_update_pmtable_size(u32 version) {
             g_smu.pm_dram_base_alt = g_smu.pm_dram_base >> 32;
             g_smu.pm_dram_base &= 0xFFFFFFFF;
             break;
-        case CODENAME_COLFAX:
         case CODENAME_PINNACLERIDGE:
+            // Seems legit.
+            g_smu.pm_dram_map_size = 0x28C;
+            break;
+        case CODENAME_COLFAX:
         case CODENAME_THREADRIPPER:
         case CODENAME_SUMMITRIDGE:
             // We don't actually know, assume it takes one memory page.
