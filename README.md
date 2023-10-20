@@ -21,16 +21,21 @@ The following processor code names are supported:
 - [Raven Ridge 2](https://www.techpowerup.com/gpu-specs/amd-raven-2.g888)
 - [Summit Ridge](https://en.wikichip.org/wiki/amd/cores/summit_ridge)
 - [Pinnacle Ridge](https://en.wikichip.org/wiki/amd/cores/pinnacle_ridge)
+- [Raphael](https://en.wikichip.org/wiki/amd/cores/raphael)
 - [Rembrandt](https://en.wikichip.org/wiki/amd/cores/rembrandt)
 - [Vermeer](https://en.wikichip.org/wiki/amd/cores/vermeer)
 - [Vangogh](https://en.wikichip.org/wiki/amd/cores/vangogh)
 - [Cezanne](https://en.wikichip.org/wiki/amd/cores/cezanne)
 - [Milan](https://en.wikichip.org/wiki/amd/cores/milan)
 - [Dali](https://en.wikichip.org/wiki/amd/cores/dali)
+- [Chagall](https://en.wikichip.org/wiki/amd/cores/chagall)
+- [Naples](https://en.wikichip.org/wiki/amd/cores/naples)
+- [Lucienne](https://en.wikichip.org/wiki/amd/cores/lucienne)
 
 In addition, for the following models, the power metrics/monitoring (PM) table (seen in screenshot)
 can also be accessed:
 
+- Raphael ( Ryzen 7000 Desktop Series )
 - Vermeer ( Ryzen 5000 Desktop Series )
 - Matisse ( Ryzen 3000 Desktop Series )
 - Cezanne ( Ryzen 5000[GE] APU Series )
@@ -48,6 +53,7 @@ permissions (for obvious reasons) at the root path `/sys/kernel/ryzen_smu_drv`:
 - `codename`
 - `smu_args`
 - `mp1_smu_cmd`
+- `hsmp_smu_cmd`
 - `smn`
 - `rsmu_cmd` (Not present on `Rembrandt`, `Vangogh`)
 
@@ -134,6 +140,7 @@ drwxr-xr-x  2 root root    0 May  7 03:01 ./
 drwxr-xr-x 14 root root    0 May  7 03:01 ../
 -r--------  1 root root 4.0K May  7 03:12 codename
 -r--------  1 root root 4.0K May  7 03:12 drv_version
+-rw-------  1 root root 4.0K May  7 03:10 hsmp_smu_cmd
 -r--------  1 root root 4.0K May  7 03:10 mp1_if_version
 -rw-------  1 root root 4.0K May  7 03:10 mp1_smu_cmd
 -r--------  1 root root 4.0K May  7 03:12 pm_table
@@ -154,7 +161,7 @@ SMU v46.54.0
 4
 
 # cat /sys/kernel/ryzen_smu_drv/drv_version
-0.0.1
+0.1.5
 
 ```
 
@@ -234,7 +241,7 @@ enumeration:
 
 Note: This file returns 2 characters of the 'Decimal' encoded index.
 
-#### `/sys/kernel/ryzen_smu_drv/rsmu_cmd` or `/sys/kernel/ryzen_smu_drv/mp1_smu_cmd`
+#### `/sys/kernel/ryzen_smu_drv/rsmu_cmd` or `/sys/kernel/ryzen_smu_drv/mp1_smu_cmd` or `/sys/kernel/ryzen_smu_drv/hsmp_smu_cmd`
 
 This file allows the user to initiate an RSMU or MP1 SMU request. It accepts either an 8-bit or
 32-bit command ID that is platform-dependent.

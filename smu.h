@@ -81,6 +81,10 @@ enum smu_processor_codename {
     CODENAME_CEZANNE,
     CODENAME_MILAN,
     CODENAME_DALI,
+    CODENAME_LUCIENNE,
+    CODENAME_NAPLES,
+    CODENAME_CHAGALL,
+    CODENAME_RAPHAEL,
 
     CODENAME_COUNT
 };
@@ -104,6 +108,7 @@ enum smu_if_version {
 enum smu_mailbox {
     MAILBOX_TYPE_RSMU,
     MAILBOX_TYPE_MP1,
+    MAILBOX_TYPE_HSMP,
 
     MAILBOX_TYPE_COUNT
 };
@@ -142,6 +147,11 @@ void smu_cleanup(void);
  * Returns the running processor's detected code name.
  */
 enum smu_processor_codename smu_get_codename(void);
+
+/**
+ * Returns the running processor's detected code name as a fridnly string.
+ */
+const char* getCodeName(enum smu_processor_codename codename);
 
 /**
  * Reads or writes 32 bit words to the SMU on the root NB PCI device.
